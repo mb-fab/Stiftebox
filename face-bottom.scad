@@ -7,7 +7,7 @@ module round_corner()
     {
         // full cylinder
         cylinder(
-            r = curvature_diameter/2,
+            r = curvature_y/2,
             h = material_z,
             center = true
             );
@@ -15,18 +15,18 @@ module round_corner()
         // subtract nearer half
         translate([
             0,
-            -curvature_diameter/2,
+            -curvature_y/2,
             0
             ])
         cube([
-            curvature_diameter*1.2,
-            curvature_diameter,
+            curvature_x*1.2,
+            curvature_x,
             material_z*1.2
             ], center=true);
     }
 }
 
-module face_bottom()
+module face_bottom_without_holes()
 {
     // rectangle in the middle
     cube([
@@ -60,6 +60,38 @@ module face_bottom()
         -90
         ])
     round_corner();
+}
+
+module face_bottom()
+{
+    difference()
+    {
+        face_bottom_without_holes();
+
+        // noses
+        for (x=[
+            -rect_x/2+nose_x/2,
+            +rect_x/2-nose_x/2
+            ])
+        {
+            for (y=[
+                -rect_y/2+wall_inset+material_z/2,
+                +rect_y/2-wall_inset-material_z/2
+                ])
+            {
+                translate([
+                    x,
+                    y,
+                    0
+                    ])
+                cube([
+                    nose_x,
+                    material_z,
+                    material_z*1.2
+                    ], center=true);
+            }
+        }
+    }
 }
 
 face_bottom();

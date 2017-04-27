@@ -1,13 +1,15 @@
 
 include <measures.scad>;
 use <face-bottom.scad>;
-use <face-side.scad>;
 use <face-top.scad>;
-use <curvature.scad>;
+use <wall-front.scad>;
+use <wall-back-male.scad>;
+use <wall-back-female.scad>;
 
 module model()
 {
     // bottom
+    color("orange")
     translate([
         0,
         0,
@@ -16,6 +18,7 @@ module model()
     face_bottom();
 
     // top
+    color("yellow")
     translate([
         0,
         0,
@@ -24,46 +27,30 @@ module model()
     face_top();
 
     // front
+    color("cyan")
     translate([
         0,
         - box_y/2 + material_z/2 + wall_inset,
         wall_z/2 + material_z
         ])
-    face_side();
+    wall_front();
 
     // back
+    color("blue")
+    translate([
+        0,
+        + box_y/2 - material_z/2 - wall_inset + nothing,
+        wall_z/2 + material_z
+        ])
+    wall_back_male();
+
+    color("red")
     translate([
         0,
         + box_y/2 - material_z/2 - wall_inset,
         wall_z/2 + material_z
         ])
-    face_side();
-
-    // left curved wall
-    translate([
-        - rect_x/2,
-        0,
-        wall_z/2 + material_z
-        ])
-    rotate([
-        0,
-        0,
-        90
-        ])
-    curvature();
-
-    // right curved wall
-    translate([
-        + rect_x/2,
-        0,
-        wall_z/2 + material_z
-        ])
-    rotate([
-        0,
-        0,
-        -90
-        ])
-    curvature();
+    wall_back_female();
 }
 
 model();

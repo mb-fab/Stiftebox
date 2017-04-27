@@ -4,7 +4,7 @@ include <measures.scad>;
 module pillar()
 {
     translate([
-        curvature_diameter/2 - material_z/2 - wall_inset,
+        curvature_y/2 - material_z/2 - wall_inset,
         0,
         0
         ])
@@ -26,6 +26,36 @@ module curvature()
             ])
         pillar();
     }
+}
+
+module curvature_left()
+{
+    translate([
+        - rect_x/2,
+        0,
+        wall_z/2 + material_z
+        ])
+    rotate([
+        0,
+        0,
+        90
+        ])
+    curvature();
+}
+
+module curvature_right()
+{
+    translate([
+        + rect_x/2,
+        0,
+        wall_z/2 + material_z
+        ])
+    rotate([
+        0,
+        0,
+        -90
+        ])
+    curvature();
 }
 
 curvature();

@@ -8,12 +8,13 @@ module face_top()
     {
         face_bottom();
 
+        // opening hole
         scale([
-            1 - hole_inset/box_x,
-            1 - hole_inset/box_y,
+            1 - top_opening_inset/box_x,
+            1 - top_opening_inset/box_y,
             1.2
             ])
-        face_bottom();
+        face_bottom_without_holes();
     }
 }
 
